@@ -19,6 +19,7 @@ services:
       - "80:80"
       
   SonarQube:
+    container_name: sonarqube
     image: sonarqube:community
     depends_on:
       - webapp
