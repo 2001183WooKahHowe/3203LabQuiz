@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  jenkins:
+    container_name: jenkins
+    build: ./jenkins
+    ports:
+      - '8080:8080'
+      - '443:8443'
+      - '50000:50000'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./jenkins_home:/var/jenkins_home
+  
+  webapp:
+    container_name: webapp
+    build: ./webapp
+    ports:
+      - "80:80"
+      
+  SonarQube:
+    image: SonarQube:community
+    depends_on:
+      - webapp
+    environment:
+      SONAR_JDBC_USERNAME: admin
+      SONAR_JDBC_PASSWORD: admin
+      volumes:
+        - SonarQube_data:/opt/SonarQube/data
+        - SonarQube_extensions:/opt/SonarQube/extensions
+        - SonarQube_logs:/opt/SonarQube/logs
+    ports:
+      - "9000:9000"
+
+volumes:
+  jenkins_data:
+    driver: local
+  SonarQube_data:
+  SonarQube_extensions:
+  SonarQube_logs:
