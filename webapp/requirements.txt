@@ -1,2 +1,4 @@
 flask
 wtforms
+flask-blacklist
+flask-jwt-extended
